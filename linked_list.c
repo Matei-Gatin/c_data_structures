@@ -200,6 +200,22 @@ Node* reverse_list(Node* HEAD) {
     return prev;
 }
 
+Node* reverse_list_recursive(Node* HEAD) {
+    // 100 -> 200 -> 300 -> NULL
+
+    if (HEAD == NULL || HEAD->next == NULL) {
+        return HEAD;
+    }
+
+    Node *new_head = reverse_list_recursive(HEAD->next);
+
+    HEAD->next->next = HEAD;
+
+    HEAD->next = NULL;
+
+    return new_head;
+}
+
 int search(Node* HEAD, const int target) {
     // searches for target and returns the index if target exist
     // else return -1
@@ -264,6 +280,16 @@ void print_linked_list_recursive(const Node *HEAD) {
     print_linked_list_recursive(HEAD->next);
 }
 
+void print_linked_list_recursive_reversed(const Node *HEAD) {
+    // base case
+    if (HEAD == NULL) {
+        return;
+    }
+
+    print_linked_list_recursive_reversed(HEAD->next);
+    printf("%d -> ", HEAD->data);
+}
+
 void free_list(Node *HEAD) {
     Node *current = HEAD;
 
@@ -296,14 +322,14 @@ int main(void) {
     // head = delete_last(head);
     // head = delete(head, 1);
 
-    head = reverse_list(head);
+    head = reverse_list_recursive(head);
 
     // int value_to_search = 3;
     // int target = search(head, value_to_search);
 
     // int middle = find_middle(head);
 
-    print_linked_list_recursive(head);
+    print_linked_list(head);
     // printf("Value %d -> Index: %d", value_to_search, target);
     // printf("Middle value: %d\n", middle);
 
