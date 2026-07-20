@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//
+
 // GLOBAL VARIABLES
 int *stack;
 int top = -1;
@@ -15,6 +17,8 @@ int pop();
 void resize();
 void push(int value);
 void print();
+int top_item();
+int is_empty();
 
 // FUNCTIONS
 void push(const int value) {
@@ -35,6 +39,19 @@ int pop() {
     const int value = stack[top];
     top--;
     return value;
+}
+
+int top_item() {
+    if (top == -1) {
+        printf("The stack is empty.\n");
+        exit(1);
+    }
+
+    return stack[top];
+}
+
+int is_empty() {
+    return top == -1;
 }
 
 void resize() {
