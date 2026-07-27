@@ -4,30 +4,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "linked_list.h"
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
-
+// GLOBAL VARIABLES
 unsigned int size = 0;
 
-Node* add_first(Node *HEAD, int value);
-Node* add(Node *HEAD, int value, int pos);
-Node* add_last(Node *HEAD, int value);
-
-Node* delete_first(Node *HEAD);
-Node* delete_last(Node *HEAD);
-Node* delete(Node *HEAD, int pos);
-
-Node* reverse_list(Node* HEAD);
-
-int search(Node* HEAD, int target);
-
-void free_list(Node *HEAD);
-
-//
-Node* add_first(Node *HEAD, const int value) {
+// FUNCTIONS
+Node *add_first(Node *HEAD, const int value) {
     Node *temp = malloc(sizeof(struct Node));
     temp->data = value;
     temp->next = HEAD;
@@ -36,7 +19,7 @@ Node* add_first(Node *HEAD, const int value) {
     return temp;
 }
 
-Node* add(Node *HEAD, const int value, const int pos) {
+Node *add(Node *HEAD, const int value, const int pos) {
     if (pos < 0) {
         printf("Position must be >= 0.\n");
         return HEAD;
@@ -76,7 +59,7 @@ Node* add(Node *HEAD, const int value, const int pos) {
     return HEAD;
 }
 
-Node* add_last(Node *HEAD, const int value) {
+Node *add_last(Node *HEAD, const int value) {
     if (HEAD == NULL) {
         return add_first(HEAD, value);
     }
@@ -97,7 +80,7 @@ Node* add_last(Node *HEAD, const int value) {
     return HEAD;
 }
 
-Node* delete_first(Node *HEAD) {
+Node *delete_first(Node *HEAD) {
     if (HEAD == NULL) {
         printf("The list is empty.\n");
         return NULL;
@@ -112,7 +95,7 @@ Node* delete_first(Node *HEAD) {
     return HEAD;
 }
 
-Node* delete_last(Node *HEAD) {
+Node *delete_last(Node *HEAD) {
     if (HEAD == NULL || size == 0) {
         printf("The list is empty.\n");
         return NULL;
@@ -134,7 +117,7 @@ Node* delete_last(Node *HEAD) {
     return HEAD;
 }
 
-Node* delete(Node *HEAD, const int pos) {
+Node *delete(Node *HEAD, const int pos) {
     if (pos < 0) {
         printf("Position must be >= 0.\n");
         return HEAD;
@@ -173,7 +156,7 @@ Node* delete(Node *HEAD, const int pos) {
     return HEAD;
 }
 
-Node* reverse_list(Node* HEAD) {
+Node *reverse_list(Node *HEAD) {
     if (HEAD == NULL) {
         printf("The list is empty.\n");
         return NULL;
@@ -200,7 +183,7 @@ Node* reverse_list(Node* HEAD) {
     return prev;
 }
 
-Node* reverse_list_recursive(Node* HEAD) {
+Node *reverse_list_recursive(Node *HEAD) {
     // 100 -> 200 -> 300 -> NULL
 
     if (HEAD == NULL || HEAD->next == NULL) {
@@ -216,7 +199,7 @@ Node* reverse_list_recursive(Node* HEAD) {
     return new_head;
 }
 
-int search(Node* HEAD, const int target) {
+int search(Node *HEAD, const int target) {
     // searches for target and returns the index if target exist
     // else return -1
 
@@ -240,7 +223,7 @@ int search(Node* HEAD, const int target) {
     return -1;
 }
 
-int find_middle(Node* HEAD) {
+int find_middle(Node *HEAD) {
     if (HEAD == NULL) {
         printf("List is empty\n");
         return -1;
@@ -302,38 +285,4 @@ void free_list(Node *HEAD) {
     }
 
     size = 0;
-}
-
-int main(void) {
-    Node *head = NULL;
-
-    // head = add_first(head, 5);
-    head = add_first(head, 4);
-    head = add_first(head, 3);
-    head = add_first(head, 2);
-    head = add_first(head, 1);
-
-    // head = add(head, 100, 1);
-    // head = add(head, 200, 0);
-    // head = add(head, 300, 5);
-    // head = add_last(head, 400);
-
-    // head = delete_first(head);
-    // head = delete_last(head);
-    // head = delete(head, 1);
-
-    head = reverse_list_recursive(head);
-
-    // int value_to_search = 3;
-    // int target = search(head, value_to_search);
-
-    // int middle = find_middle(head);
-
-    print_linked_list(head);
-    // printf("Value %d -> Index: %d", value_to_search, target);
-    // printf("Middle value: %d\n", middle);
-
-    free_list(head);
-
-    return 0;
 }

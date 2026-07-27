@@ -4,24 +4,49 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "stack_array.h"
 
 //
 
 // GLOBAL VARIABLES
-int *stack;
+void **stack;
 int top = -1;
 int max_size = 10;
 
 // PROTOTYPES
-int pop();
 void resize();
-void push(int value);
-void print();
-int top_item();
-int is_empty();
 
 // FUNCTIONS
-void push(const int value) {
+void init_stack() {
+    stack = malloc(max_size * sizeof(void *));
+
+    if (stack == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+}
+
+void free_stack() {
+    free(stack);
+    stack = NULL;
+    top = -1;
+    max_size = 10;
+}
+
+void resize() {
+    max_size *= 2;
+
+    void **temp = realloc(stack, max_size * sizeof(void *));
+
+    if (temp == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+
+    stack = temp;
+}
+
+void push(void *value) {
     if (top + 1 == max_size) {
         resize();
     }
@@ -30,18 +55,18 @@ void push(const int value) {
     stack[top] = value;
 }
 
-int pop() {
+void *pop() {
     if (top == -1) {
         printf("Stack Underflow! The stack is empty.\n");
         exit(1);
     }
 
-    const int value = stack[top];
+    void *value = stack[top];
     top--;
     return value;
 }
 
-int top_item() {
+void *top_item() {
     if (top == -1) {
         printf("The stack is empty.\n");
         exit(1);
@@ -54,43 +79,6 @@ int is_empty() {
     return top == -1;
 }
 
-void resize() {
-    max_size *= 2;
-    int *temp = realloc(stack, max_size * sizeof(int));
-
-    if (temp == NULL) {
-        printf("Memory allocation failed!\n");
-        exit(1);
-    }
-
-    stack = temp;
-}
-
-void print() {
-    if (top == -1) {
-        printf("Stack is empty.\n");
-        return;
-    }
-
-    for (int i = 0; i <= top; i++) {
-        if (i == top) {
-            printf("%d\n", stack[i]);
-            return;
-        }
-
-        printf("%d, ", stack[i]);
-    }
-}
-
-int main(void) {
-    stack = malloc(max_size * sizeof(int));
-
-    if (stack == NULL) return 1;
-
-    for (int i = 100; i <= 1200; i += 100) {
-        push(i);
-    }
-    print();
-
-    return 0;
+int size() {
+    return top + 1;
 }
